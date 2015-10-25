@@ -15,7 +15,7 @@ var EventAdapter = require('./eventhub/EventAdapter');
 var PluginMan = require('./eventhub/PluginMan2');
 
 var fs = require('fs');
-var log = new (require('Log'))('debug');
+/*var log = new (require('Log'))('debug');*/
 var path = require('path');
 var yaml = require('js-yaml');
 
@@ -27,7 +27,7 @@ function exit(code, reason) {
 module.exports.exit = exit;
 
 function bootSession() {
-	log.info('<Bootloader> 開始啟動Nekobot會話');
+	console.log('<Bootloader> 開始啟動Nekobot會話');
 
 	var config = yaml.load(fs.readFileSync('./Config.yaml', 'utf8'));
 	config.authorize.cache = path.resolve(config.authorize.cache);
