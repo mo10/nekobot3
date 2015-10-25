@@ -9,7 +9,7 @@ var Bootloader = require('./../Bootloader');
 var APIClient = require('./../common/APIClient');
 
 var event = require('events');
-var log = new (require('Log'))('debug');
+/*var log = new (require('Log'))('debug');*/
 var moment = require('moment');
 
 var Kernel = function (a, c1, c2) {
@@ -20,14 +20,14 @@ var Kernel = function (a, c1, c2) {
 	this.eventHandler = nullEventHandler;
 	this.kernelEvent = new event.EventEmitter();
 
-	log.info('<Kernel> 內核構築完畢');
+	console.log('<Kernel> 內核構築完畢');
 };
 
 Kernel.prototype.start = function () {
 	this.launchtime = moment();
 	process.title = 'Nekobot v2 Console';
 
-	log.info('<Kernel> 內核啓動!');
+	console.log('<Kernel> 內核啓動!');
 
 	var that = this;
 	process.nextTick(function () {
@@ -42,7 +42,7 @@ function nullEventHandler() {
 }
 
 function poll(kernel, handler) {
-	log.debug('<Kernel> Executing Poll Tick... method v3 via APIClient');
+	console.log('<Kernel> Executing Poll Tick... method v3 via APIClient');
 
 	var url = "http://d.web2.qq.com/channel/poll2";
 	var r = {
@@ -65,14 +65,14 @@ function poll(kernel, handler) {
 
 function poll_handle(kernel, ret, error) {
 	if (error) {
-		log.error("<Kernel> 執行Poll操作時遇到異常: " + error);
+		console.log("<Kernel> 執行Poll操作時遇到異常: " + error);
 		return;
 	}
 
 	var retcode = ret ? ret.retcode : -1;
 	switch (retcode) {
 		case -1:
-			log.error("<Kernel> Null Response (retcode == -1)");
+			console.log("<Kernel> Null Response (retcode == -1)");
 			break;
 		case 0:
 			var res = ret.result;
@@ -81,11 +81,11 @@ function poll_handle(kernel, ret, error) {
 			}
 			break;
 		case 102:
-			log.debug('<Kernel> nothing happened');
+			console.log('<Kernel> nothing happened');
 			break;
 		case 103:
 		case 121:
-			log.critical('<Kernel> 登入狀態異常: ' + retcode);
+			console.log('<Kernel> 登入狀態異常: ' + retcode);
 			Bootloader.exit(72, '登入狀態異常: ' + retcode);
 			break;
 		case 116:
@@ -94,7 +94,7 @@ function poll_handle(kernel, ret, error) {
 			break;
 		default:
 			kernel.kernelEvent.emit('unimplemented', ret, kernel);
-			log.debug(ret);
+			console.log(ret);
 			break;
 	}
 }
