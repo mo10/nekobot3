@@ -6,7 +6,7 @@
 */
 
 var Api = require('../common/qqapi2');
-var log = new (require('Log'))('debug');
+/*var log = new (require('Log'))('debug');*/
 
 var queue;
 
@@ -18,7 +18,7 @@ function processQueue() {
 	switch (msg.type) {
 		case 'group':
 			Api.send_qun_msg2(msg.gid, msg.content, global.NB_KERNEL, function (/*ret, errror*/) {
-				log.info('向群組傳遞訊息 ' + msg.name + ' <- ' + msg.content);
+				console.log('向群組傳遞訊息 ' + msg.name + ' <- ' + msg.content);
 			});
 			continueNext();
 			break;
